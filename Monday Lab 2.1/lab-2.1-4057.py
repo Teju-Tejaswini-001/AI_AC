@@ -1,108 +1,89 @@
+#TASK1
+import statistics
+def analyze_numbers(numbers):
+    """
+    Calculates the mean, minimum, and maximum of a list of numbers.
 
-# # Task 1
-# '''
-# Prompt :
-# You are an AI coding assistant.
-# Write a Python function in Google Colab that:
-# Accepts a list of numbers as input
-# Calculates the mean, minimum, and maximum values
-# Prints the results clearly
+    Args:
+        numbers (list): A list of numerical values.
 
-# Then run the function on the list [12, 7, 9, 21, 5] and show the output.
-# '''
+    Returns:
+        tuple: A tuple containing (mean, minimum, maximum).
+               Returns (None, None, None) if the list is empty.
+    """
+    if not numbers:
+        return None, None, None
 
-# def calculate_statistics(numbers):
-#     if not numbers:
-#         print("List is empty")
-#         return
+    mean_value = statistics.mean(numbers)
+    min_value = min(numbers)
+    max_value = max(numbers)
 
-#     mean_value = sum(numbers) / len(numbers)
-#     min_value = min(numbers)
-#     max_value = max(numbers)
-
-#     print("Mean:", mean_value)
-#     print("Minimum:", min_value)
-#     print("Maximum:", max_value)
-
-# test_list = [12, 7, 9, 21, 5]
-# calculate_statistics(test_list)
+    return mean_value, min_value, max_value
 
 
-# # Task 2
-# '''
-# Prompt: Armstrong Number Checker
-# Write a Python function that checks if a number is an Armstrong number.
-# Test it with 153 and 123, and print the results clearly.
-# '''
+data = [10, 20, 30, 40, 50]
+mean, minimum, maximum = analyze_numbers(data)
+print(f"List: {data}")
+print(f"Mean: {mean}")
+print(f"Minimum: {minimum}")
+print(f"Maximum: {maximum}")
 
-# def is_armstrong_number(number):
-#     num_str = str(number)
-#     power = len(num_str)
-#     total = sum(int(digit) ** power for digit in num_str)
-#     return total == number
+data_empty = []
+mean_empty, min_empty, max_empty = analyze_numbers(data_empty)
+print(f"\nList: {data_empty}")
+print(f"Mean: {mean_empty}")
+print(f"Minimum: {min_empty}")
+print(f"Maximum: {max_empty}")
 
-# for num in [153, 123]:
-#     if is_armstrong_number(num):
-#         print(f"{num} is an Armstrong number")
-#     else:
-#         print(f"{num} is not an Armstrong number")
+#TASK2
+#!/usr/bin/env python3
+import argparse
+import sys
+def is_armstrong(n: int) -> bool:
+    if n < 0:
+        return False
 
+    digits = [int(d) for d in str(n)]
+    p = len(digits)
+    return sum(d ** p for d in digits) == n
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Check Armstrong numbers")
+    parser.add_argument("number", nargs="?", type=int, help="integer to check")
+    args = parser.parse_args()
+    if args.number is None:
+        try:
+            s = input("Enter a non-negative integer: ").strip()
+            num = int(s)
+        except (EOFError, ValueError):
+            print("Invalid input", file=sys.stderr)
+            sys.exit(1)
+    else:
+        num = args.number
+    print(num)
+    print(is_armstrong(num))
+if __name__ == "__main__":
+    main()
 
-# # Task 3
-# '''
-# Prompt:
-# Write a Python function is_leap_year(year) that returns True if the year is a leap year, otherwise False.
-# Test it with 2000, 2021, 2024, and 2100.
-# '''
+#TASK3
+year = int(input("Enter a year: ")) 
+# A year is a leap year if: 
+# - It is divisible by 4 AND 
+#   - not divisible by 100, UNLESS 
+#   - it is also divisible by 400 
+if year % 400 == 0: 
+    print(f"{year} is a leap year.") 
+elif year % 100 == 0: 
+    print(f"{year} is not a leap year.") 
+elif year % 4 == 0: 
+    print(f"{year} is a leap year.") 
+else: 
+    print(f"{year} is not a leap year.") 
 
-# def is_leap_year(year):
-#     if year % 4 == 0:
-#         if year % 100 == 0:
-#             return year % 400 == 0
-#         return True
-#     return False
+#TASK4
+t = (1, 2, 3, 4, 5, 6, 7)
 
-# for year in [2000, 2021, 2024, 2100]:
-#     if is_leap_year(year):
-#         print(f"{year} is a leap year")
-#     else:
-#         print(f"{year} is not a leap year")
+even_sum = sum(i for i in t if i % 2 == 0)
+odd_sum = sum(i for i in t if i % 2 != 0)
 
-
-# # Task 4: Student Logic + AI Refactoring (Odd/Even Sum)
-# '''
-# Company policy requires developers to write logic before using AI.
-# Write a Python program that calculates the sum of odd and even numbers in a tuple,
-# then refactor it using AI.
-# '''
-
-# Original code 
-def calculate_sums_original(numbers):
-    even_sum = 0
-    odd_sum = 0
-
-    for num in numbers:
-        if num % 2 == 0:
-            even_sum += num
-        else:
-            odd_sum += num
-
-    return even_sum, odd_sum
-
-# Refactored code (AI Version)
-def calculate_sums_refactored(numbers):
-    even_sum = sum(num for num in numbers if num % 2 == 0)
-    odd_sum = sum(num for num in numbers if num % 2 != 0)
-    return even_sum, odd_sum
-
-test_tuple = (1, 2, 3, 4, 5, 6)
-
-print("Original Code Output:")
-even_sum, odd_sum = calculate_sums_original(test_tuple)
-print("Even sum:", even_sum)
-print("Odd sum:", odd_sum)
-
-print("\nRefactored Code Output:")
-even_sum, odd_sum = calculate_sums_refactored(test_tuple)
-print("Even sum:", even_sum)
-print("Odd sum:", odd_sum)
+print("Sum of even numbers:", even_sum)
+print("Sum of odd numbers:", odd_sum)
